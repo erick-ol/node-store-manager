@@ -1,0 +1,13 @@
+{
+  "files.exclude": {
+    "node_modules/": true,
+    ".github/": true,
+    ".trybe/": true,
+    "public/": true,
+    ".eslintignore": true,
+    ".eslintrc.json": true,
+    ".editorconfig": true,
+    "package-lock.json": true,
+    "trybe.yml": true,
+  }
+}
