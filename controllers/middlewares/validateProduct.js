@@ -6,7 +6,7 @@ const {
 } = require('../../utils/statusCode');
 
 const validateName = async (req, res, next) => {
-  const { name } = req.body;
+  const { name, id } = req.body;
 
   if (!name) return res.status(BAD_REQUEST_STATUS).json({ message: '"name" is required' });
   if (name.length < 5) {
@@ -16,7 +16,7 @@ const validateName = async (req, res, next) => {
 
   const products = await getAllProducts();
 
-  if (products.some((p) => p.name === name)) {
+  if (id && products.some((p) => p.name === name)) {
     return res.status(CONFLICT_STATUS).json({ message: 'Product already exists' });
   }
 

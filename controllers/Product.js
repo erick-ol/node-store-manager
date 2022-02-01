@@ -7,6 +7,7 @@ const {
   createProduct,
   getAllProducts,
   getProductById,
+  updateProduct,
 } = require('../services');
 const { validateName, validateQuant } = require('./middlewares/validateProduct');
 
@@ -34,9 +35,22 @@ const getById = async (req, res) => {
   res.status(OK_STATUS).json(result);
 };
 
-product.get('/', getAll);
-product.get('/:id', getById);
+const update = async (req, res) => {
+  const { name, quantity } = req.body;
+  const { id } = req.params;
 
+  const result = await getProductById(id);
+
+  if (!result) return res.status(NOT_FOUND_STATUS).json({ message: 'Product not found' });
+
+  const prod = await updateProduct(id, name, quantity);
+
+  res.status(OK_STATUS).json(prod);
+};
+
+product.get('/', rescue(getAll));
+product.get('/:id', rescue(getById));
+product.put('/:id', validateName, validateQuant, rescue(update));
 product.post('/', validateName, validateQuant, rescue(create));
 
 module.exports = {
