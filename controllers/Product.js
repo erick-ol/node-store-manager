@@ -9,7 +9,8 @@ const {
   getProductById,
   updateProduct,
 } = require('../services');
-const { validateName, validateQuant } = require('./middlewares/validateProduct');
+const { validateName, validateQuant, exists } = require('./middlewares/validateProduct');
+const { deleteProduct } = require('../models');
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
@@ -48,10 +49,23 @@ const update = async (req, res) => {
   res.status(OK_STATUS).json(prod);
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+
+  const result = await getProductById(id);
+
+  if (!result) return res.status(NOT_FOUND_STATUS).json({ message: 'Product not found' });
+
+  await deleteProduct(id);
+
+  res.status(OK_STATUS).json(result);
+};
+
 product.get('/', rescue(getAll));
 product.get('/:id', rescue(getById));
+product.post('/', validateName, validateQuant, exists, rescue(create));
+product.delete('/:id', rescue(remove));
 product.put('/:id', validateName, validateQuant, rescue(update));
-product.post('/', validateName, validateQuant, rescue(create));
 
 module.exports = {
   product,
