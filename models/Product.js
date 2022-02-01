@@ -18,7 +18,17 @@ const getAllProducts = async () => {
   return result;
 };
 
+const getProductById = async (id) => {
+  const [result] = await connection.query(
+    'SELECT * FROM products WHERE id = ?;',
+    [id],
+  );
+
+  return result[0];
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
+  getProductById,
 };
