@@ -12,9 +12,11 @@ app.get('/', (_request, response) => {
 
 // require controllers
 const { product } = require('./controllers');
+const { sale } = require('./controllers');
 
 // endpoints projeto
 app.use('/products', product);
+app.use('/sales', sale);
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
