@@ -5,7 +5,10 @@ const { validateQuant, validateId } = require('./middlewares/validateSale');
 
 // Importação de Services
 const {
- createSale, allSales, saleById,
+ createSale,
+ allSales,
+ saleById,
+ updateSale,
 } = require('../services');
 
 // Crontollers
@@ -29,16 +32,28 @@ const getById = async (req, res) => {
   const { id } = req.params;
 
   const s = await saleById(id);
-  console.log(s);
 
   if (s.length === 0) return res.status(NOT_FOUND_STATUS).json({ message: 'Sale not found' });
   
   res.status(OK_STATUS).json(s);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { product_id: prodId, quantity } = req.body[0];
+
+  await updateSale(prodId, quantity, id);
+
+  res.status(OK_STATUS).json({
+    saleId: id,
+    itemUpdated: [req.body[0]],
+  });
+};
+
 sale.post('/', validateId, validateQuant, rescue(create));
 sale.get('/', rescue(getAll));
 sale.get('/:id', rescue(getById));
+sale.put('/:id', validateId, validateQuant, rescue(update));
 
 module.exports = {
   sale,
