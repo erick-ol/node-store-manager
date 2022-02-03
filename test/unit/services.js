@@ -15,9 +15,8 @@ const {
 describe('Testing services', () => {
   describe('Product services', () => {
     beforeEach(async () => {
-      const execute = [[]];
   
-      sinon.stub(connection, 'execute').resolves(execute);
+      sinon.stub(connection, 'execute').resolves();
     });
   
     afterEach(async () => connection.execute.restore());
@@ -70,9 +69,8 @@ describe('Testing services', () => {
 
   describe('Sale services', () => {
     beforeEach(async () => {
-      const execute = [[]];
   
-      sinon.stub(connection, 'execute').resolves(execute);
+      sinon.stub(connection, 'execute').resolves();
     });
   
     afterEach(async () => connection.execute.restore());
