@@ -4,17 +4,12 @@ const { CREATED_STATUS, NOT_FOUND_STATUS, OK_STATUS } = require('../utils/status
 const { validateQuant, validateId } = require('./middlewares/validateSale');
 
 // Importação de Services
-const {
- createSale,
- allSales,
- saleById,
- updateSale,
-} = require('../services');
+const { saleService: service } = require('../services');
 
 // Crontollers
 const create = async (req, res) => {
   const { body } = req;
-  const saleId = await createSale(body);
+  const saleId = await service.create(body);
 
   res.status(CREATED_STATUS).json({
     id: saleId,
@@ -23,7 +18,7 @@ const create = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-  const sales = await allSales();
+  const sales = await service.getAll();
 
   res.status(OK_STATUS).json(sales);
 };
@@ -31,7 +26,7 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
   const { id } = req.params;
 
-  const s = await saleById(id);
+  const s = await service.getById(id);
 
   if (s.length === 0) return res.status(NOT_FOUND_STATUS).json({ message: 'Sale not found' });
   
@@ -42,7 +37,7 @@ const update = async (req, res) => {
   const { id } = req.params;
   const { product_id: prodId, quantity } = req.body[0];
 
-  await updateSale(prodId, quantity, id);
+  await service.update(prodId, quantity, id);
 
   res.status(OK_STATUS).json({
     saleId: id,

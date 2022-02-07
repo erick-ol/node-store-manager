@@ -1,14 +1,7 @@
 const productModel = require('./Product');
-
-const { createSale } = require('./Sale');
-const { allSales } = require('./Sale');
-const { saleById } = require('./Sale');
-const { updateSale } = require('./Sale');
+const saleModel = require('./Sale');
 
 module.exports = {
   productModel,
-  createSale,
-  allSales,
-  saleById,
-  updateSale,
+  saleModel,
 };
