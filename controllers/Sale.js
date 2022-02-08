@@ -45,10 +45,21 @@ const update = async (req, res) => {
   });
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+
+  const result = await service.remove(id);
+
+  if (!result) return res.status(NOT_FOUND_STATUS).json({ message: 'Sale not found' });
+
+  res.status(OK_STATUS).json(result);
+};
+
 sale.post('/', validateId, validateQuant, rescue(create));
 sale.get('/', rescue(getAll));
 sale.get('/:id', rescue(getById));
 sale.put('/:id', validateId, validateQuant, rescue(update));
+sale.delete('/:id', rescue(remove));
 
 module.exports = {
   sale,
