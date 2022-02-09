@@ -1,0 +1,2 @@
+Consulta sobre Promise.all
+  https://stackoverflow.com/questions/56171786/some-function-using-async-and-await-always-returning-true
