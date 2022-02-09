@@ -26,6 +26,8 @@ const remove = async (id) => {
   await model.remove(id);
   return result;
 };
+const getQuant = async (id) => model.getQuant(id);
+const updateQuant = async (id, quantity) => model.updateQuant(id, quantity);
 
 module.exports = {
   create,
@@ -33,4 +35,6 @@ module.exports = {
   getById,
   update,
   remove,
+  getQuant,
+  updateQuant,
 };

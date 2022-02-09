@@ -1,6 +1,11 @@
 const rescue = require('express-rescue');
 const sale = require('express').Router();
-const { CREATED_STATUS, NOT_FOUND_STATUS, OK_STATUS } = require('../utils/statusCode');
+const {
+  CREATED_STATUS,
+  NOT_FOUND_STATUS,
+  OK_STATUS,
+  UNPROCESSABLE_ENTITY_STATUS,
+} = require('../utils/statusCode');
 const { validateQuant, validateId } = require('./middlewares/validateSale');
 
 // Importação de Services
@@ -10,6 +15,11 @@ const { saleService: service } = require('../services');
 const create = async (req, res) => {
   const { body } = req;
   const saleId = await service.create(body);
+
+  if (!saleId) {
+    return res.status(UNPROCESSABLE_ENTITY_STATUS).json({
+      message: 'Such amount is not permitted to sell' });
+  }
 
   res.status(CREATED_STATUS).json({
     id: saleId,

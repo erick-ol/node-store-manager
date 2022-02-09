@@ -43,10 +43,27 @@ const remove = async (id) => {
   );
 };
 
+const getQuant = async (id) => {
+  const [result] = await connection.query(
+    'SELECT quantity FROM products WHERE id = ?;',
+    [id],
+  );
+  return result[0].quantity;
+};
+
+const updateQuant = async (id, quantity) => {
+  await connection.query(
+    'UPDATE products SET quantity = ? WHERE id = ?;',
+    [quantity, id],
+  );
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
   remove,
+  getQuant,
+  updateQuant,
 };
