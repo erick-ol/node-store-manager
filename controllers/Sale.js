@@ -1,12 +1,9 @@
-const rescue = require('express-rescue');
-const sale = require('express').Router();
 const {
   CREATED_STATUS,
   NOT_FOUND_STATUS,
   OK_STATUS,
   UNPROCESSABLE_ENTITY_STATUS,
 } = require('../utils/statusCode');
-const { validateQuant, validateId } = require('./middlewares/validateSale');
 
 // Importação de Services
 const { saleService: service } = require('../services');
@@ -36,11 +33,13 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
   const { id } = req.params;
 
-  const s = await service.getById(id);
+  const saleInfo = await service.getById(id);
 
-  if (s.length === 0) return res.status(NOT_FOUND_STATUS).json({ message: 'Sale not found' });
+  if (saleInfo.length === 0) {
+    return res.status(NOT_FOUND_STATUS).json({ message: 'Sale not found' });
+  }
   
-  res.status(OK_STATUS).json(s);
+  res.status(OK_STATUS).json(saleInfo);
 };
 
 const update = async (req, res) => {
@@ -65,12 +64,10 @@ const remove = async (req, res) => {
   res.status(OK_STATUS).json(result);
 };
 
-sale.post('/', validateId, validateQuant, rescue(create));
-sale.get('/', rescue(getAll));
-sale.get('/:id', rescue(getById));
-sale.put('/:id', validateId, validateQuant, rescue(update));
-sale.delete('/:id', rescue(remove));
-
 module.exports = {
-  sale,
+  create,
+  getAll,
+  getById,
+  update,
+  remove,
 };

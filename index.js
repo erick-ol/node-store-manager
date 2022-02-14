@@ -11,7 +11,7 @@ app.get('/', (_request, response) => {
 });
 
 // require controllers
-const { product, sale } = require('./controllers');
+const { product, sale } = require('./routes');
 
 // endpoints projeto
 app.use('/products', product);

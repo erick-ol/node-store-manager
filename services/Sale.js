@@ -7,20 +7,20 @@ const productService = require('./Product');
 // Utils
 const updateQuant = async (sale, op) => {
   const promisesUpdate = sale
-    .map(async (p) => {
-      const product = await productService.getById(p.product_id);
-      if (op === '-') product.quantity -= p.quantity;
-      else product.quantity += p.quantity;
-      await productService.updateQuant(p.product_id, product.quantity);
+    .map(async (prod) => {
+      const product = await productService.getById(prod.product_id);
+      if (op === '-') product.quantity -= prod.quantity;
+      else product.quantity += prod.quantity;
+      await productService.updateQuant(prod.product_id, product.quantity);
     });
   await Promise.all(promisesUpdate);
 };
 
 // Services
 const create = async (sale) => {
-  const promisesValidate = sale.map(async (p) => {
-    const quant = await productService.getQuant(p.product_id);
-    if (quant < p.quantity) {
+  const promisesValidate = sale.map(async (prod) => {
+    const quant = await productService.getQuant(prod.product_id);
+    if (quant < prod.quantity) {
       return true;
     }
   });

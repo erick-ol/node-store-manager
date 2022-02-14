@@ -1,5 +1,3 @@
-const rescue = require('express-rescue');
-const product = require('express').Router();
 const {
   CREATED_STATUS,
   OK_STATUS,
@@ -9,7 +7,6 @@ const {
 
 // Importação de Services
 const { productService: service } = require('../services');
-const { validateName, validateQuant } = require('./middlewares/validateProduct');
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
@@ -58,12 +55,10 @@ const remove = async (req, res) => {
   res.status(OK_STATUS).json(result);
 };
 
-product.get('/', rescue(getAll));
-product.get('/:id', rescue(getById));
-product.post('/', validateName, validateQuant, rescue(create));
-product.delete('/:id', rescue(remove));
-product.put('/:id', validateName, validateQuant, rescue(update));
-
 module.exports = {
-  product,
+  create,
+  getAll,
+  getById,
+  update,
+  remove,
 };

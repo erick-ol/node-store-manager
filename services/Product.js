@@ -5,7 +5,7 @@ const { productModel: model } = require('../models');
 const create = async (name, quantity) => {
   const products = await model.getAll();
 
-  if (products.some((p) => p.name === name)) return null;
+  if (products.some((product) => product.name === name)) return null;
 
   return model.create(name, quantity);
 };

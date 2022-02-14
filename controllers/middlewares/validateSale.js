@@ -6,7 +6,7 @@ const {
 const validateId = async (req, res, next) => {
   const { body } = req;
 
-  if (body.some((s) => !s.product_id)) {
+  if (body.some((sale) => !sale.product_id)) {
     return res.status(BAD_REQUEST_STATUS).json({ message: '"product_id" is required' });
   }
 
@@ -16,11 +16,11 @@ const validateId = async (req, res, next) => {
 const validateQuant = async (req, res, next) => {
   const { body } = req;
 
-  if (body.some((s) => !s.quantity && s.quantity !== 0)) {
+  if (body.some((sale) => !sale.quantity && sale.quantity !== 0)) {
     return res.status(BAD_REQUEST_STATUS).json({ message: '"quantity" is required' });
   }
 
-  if (body.some((s) => s.quantity < 1 || !Number.isInteger(s.quantity))) {
+  if (body.some((sale) => sale.quantity < 1 || !Number.isInteger(sale.quantity))) {
     return res.status(UNPROCESSABLE_ENTITY_STATUS).json({
       message: '"quantity" must be a number larger than or equal to 1' });
   }
